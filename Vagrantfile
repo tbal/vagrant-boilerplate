@@ -47,11 +47,6 @@ end
 #
 Vagrant.configure("2") do |config|
 
-  # Message to show after vagrant up
-  # --------------------
-  # FIXME: access config.vm.hostname as info for where to start and add more text
-  config.vm.post_up_message = "Welcome! (chef/debian-7.7, v1.0.0)"
-
   # Base Box
   # --------------------
   config.vm.box = "chef/debian-7.7"
@@ -96,6 +91,10 @@ Vagrant.configure("2") do |config|
   #if Vagrant.has_plugin?("vagrant-hostsupdater")
   #  config.vbguest.auto_update = false
   #end
+
+  # Message to show after vagrant up
+  # --------------------
+  config.vm.post_up_message = "Welcome to your shiny developer box!\n\nTo get started, browse to:\n>>> http://#{config.vm.hostname} <<<"
 
   # Provisioning
   # --------------------
