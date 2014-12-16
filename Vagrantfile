@@ -14,12 +14,12 @@ if !Vagrant.has_plugin?("vagrant-hostsupdater")
   puts "Do you want me to install it for you? ([y]es, [s]kip, [n]o)"
   STDOUT.flush()
   case STDIN.gets.chomp
-  when 'y'
-    system 'vagrant plugin install vagrant-hostsupdater'
-    puts
-  when 's'
-  else
-    exit
+    when 'y'
+      system 'vagrant plugin install vagrant-hostsupdater'
+      puts
+    when 's'
+    else
+      exit
   end
 end
 
@@ -32,12 +32,12 @@ if !Vagrant.has_plugin?("vagrant-vbguest")
   puts "Do you want me to install it for you? ([y]es, [s]kip, [n]o)"
   STDOUT.flush()
   case STDIN.gets.chomp
-  when 'y'
-    system 'vagrant plugin install vagrant-vbguest'
-    puts
-  when 's'
-  else
-    exit
+    when 'y'
+      system 'vagrant plugin install vagrant-vbguest'
+      puts
+    when 's'
+    else
+      exit
   end
 end
 
