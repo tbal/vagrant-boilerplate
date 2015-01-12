@@ -66,4 +66,10 @@ Vagrant.configure("2") do |config|
       #...
     ]
 
+  # (Re)start apache when the box is ready
+  # This is necessary because apache fails on first start because the project folder (/vagrant)
+  # where the vhost config is located is not mounted at this time (-> race condition)
+  # --------------------
+  config.vm.provision "shell", inline: "service apache2 restart", run: "always"
+
 end
