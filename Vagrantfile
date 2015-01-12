@@ -59,11 +59,28 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell",
     path: "https://raw.githubusercontent.com/tbal/vagrant-provision-init-script/master/init.sh",
     args: [
-      "debian/base",
-      #"debian/apache",
-      #"debian/php",
-      #"debian/php-phpinfo",
-      #...
+      # Add project specific setup, if any
+      #"scripts/provision/vagrant/setup-config-files.sh",
+
+
+      # Use Bundles, e.g.:
+      #"debian/bundle/typo3-lamp",
+      # and add additional tools and packages optionally
+      #"debian-7/php-xdebug",
+      #"debian-7/php-phpinfo",
+      #"debian-7/adminer",
+
+      # OR
+
+      # use single scripts to provision your custom environment, e.g.:
+      #"debian-7/base",
+      #"debian-7/common",
+      #"debian-7/apache",
+      #"debian-7/mysql",
+      #"debian-7/php",
+      #"debian-7/php-xdebug",
+      #"debian-7/php-mysql",
+      #"debian-7/java",
     ]
 
   # (Re)start apache when the box is ready
