@@ -1,0 +1,36 @@
+# Check/Install Plugin: vagrant-hostsupdater
+if !Vagrant.has_plugin?("vagrant-hostsupdater")
+  puts "[plugin hostsupdater missing] It is highly recommended to install the hostsupdater plugin."
+  puts "[plugin hostsupdater missing] This plugin adds/removes entries to your /etc/hosts file on the host system automatically."
+  puts "[plugin hostsupdater missing] You can install it by running the following command:"
+  puts "[plugin hostsupdater missing] vagrant plugin install vagrant-hostsupdater"
+  puts "Do you want me to install it for you? ([y]es, [s]kip, [a]bort)"
+  STDOUT.flush()
+  case STDIN.gets.chomp
+    when 'y'
+      system 'vagrant plugin install vagrant-hostsupdater'
+      puts
+    when 's'
+    else
+      exit
+  end
+end
+
+
+# Check/Install Plugin: vagrant-vbguest
+if !Vagrant.has_plugin?("vagrant-vbguest")
+  puts "[plugin vbguest missing] It is highly recommended to install the vbguest plugin."
+  puts "[plugin vbguest missing] This plugin takes care that matching virtualbox guest additions are installed which results in optimal performance of the vm."
+  puts "[plugin vbguest missing] You can install it by running the following command:"
+  puts "[plugin vbguest missing] vagrant plugin install vagrant-vbguest"
+  puts "Do you want me to install it for you? ([y]es, [s]kip, [a]bort)"
+  STDOUT.flush()
+  case STDIN.gets.chomp
+    when 'y'
+      system 'vagrant plugin install vagrant-vbguest'
+      puts
+    when 's'
+    else
+      exit
+  end
+end
