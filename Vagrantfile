@@ -25,10 +25,6 @@ Vagrant.configure("2") do |config|
     config.hostsupdater.remove_on_suspend = true
   end
 
-  # Port to forward
-  # --------------------
-  #config.vm.network "forwarded_port", guest: 80, host: 80
-
   # IP of the box
   # Note: Use an IP that doesn't conflict with any OS's DHCP
   # --------------------
@@ -49,6 +45,7 @@ Vagrant.configure("2") do |config|
   end
 
   # Disable auto checking and updating correct guest additions version when booting the machine
+  # --------------------
   #if Vagrant.has_plugin?("vagrant-hostsupdater")
   #  config.vbguest.auto_update = false
   #end
