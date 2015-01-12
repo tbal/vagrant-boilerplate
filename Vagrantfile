@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config|
 
   # Message to show after vagrant up
   # --------------------
-  config.vm.post_up_message = "Welcome to your shiny developer box!\n\nTo get started, browse to:\n>>> http://#{config.vm.hostname} <<<"
+  config.vm.post_up_message = "Your development box is now ready!\n\nTo get started, browse to:   >>> http://#{config.vm.hostname} <<<"
 
   # Provisioning
   # --------------------
