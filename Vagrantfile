@@ -44,7 +44,11 @@ Vagrant.configure("2") do |config|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
 
-  # Disable auto checking and updating correct guest additions version when booting the machine
+  # Skip checking for an updated version of the specified vagrant box
+  # --------------------
+  #config.vm.box_check_update = false
+
+  # Skip auto checking and updating correct guest additions version when booting the machine
   # --------------------
   #if Vagrant.has_plugin?("vagrant-hostsupdater")
   #  config.vbguest.auto_update = false
