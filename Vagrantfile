@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
 
   # Base Box
   # --------------------
-  config.vm.box = "chef/debian-7.7"
+  config.vm.box = "chef/debian-7.8"
 
   # Box Hostname
   # Note: If vagrant-hostsupdater plugin is installed, an /etc/hosts entry will be added with this information
