@@ -8,18 +8,20 @@ Vagrant.require_version ">= 1.7.0"
 #
 Vagrant.configure("2") do |config|
 
-  # Base Box
-  # --------------------
+  # Base Box (works with virtualbox provider)
   config.vm.box = "chef/debian-7.8"
 
+  # Skip checking for an updated version of the specified vagrant box
+  config.vm.box_check_update = false
+
+
   # Box Hostname
-  # Note: If vagrant-hostsupdater plugin is installed, an /etc/hosts entry will be added with this information
-  # --------------------
+  # Note: If vagrant-hostsupdater plugin is installed,
+  #       an /etc/hosts entry will be added with this as host
   config.vm.hostname = "vagrant.dev"
 
   # /etc/hosts entries added by vagrant-hostsupdater plugin
-  # Note. Requires vagrant-hostsupdater plugin to be installed/enabled
-  # --------------------
+  # Note: Requires vagrant-hostsupdater plugin to be installed
   if Vagrant.has_plugin?("vagrant-hostsupdater")
     config.hostsupdater.aliases = ["sub1.vagrant.dev", "sub2.vagrant.dev"]
     config.hostsupdater.remove_on_suspend = true
@@ -27,70 +29,66 @@ Vagrant.configure("2") do |config|
 
   # IP of the box
   # Note: Use an IP that doesn't conflict with any OS's DHCP
-  # --------------------
   config.vm.network "private_network", ip: "192.168.33.164"
 
+
   # Synced Folders
-  # Note: Requires nfsd package to be installed (except windows, nfs mount option will be irgnored on windows host)!
-  # --------------------
+  # Note: Requires nfsd package to be installed. Except on Windows, where
+  #       the nfs mount option will be ignored and the default is used.
   config.vm.synced_folder ".", "/vagrant", type: "nfs"
 
-  # Box performance settings (virtualbox-provider only!)
-  # --------------------
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 1024
-    v.cpus = 2
 
-    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  # Box settings for provider: VirtualBox
+  config.vm.provider "virtualbox" do |vbox|
+    vbox.memory = 1024
+    vbox.cpus   = 2
+
+    vbox.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+
+    # Skip auto checking and updating correct guest additions version when booting the machine
+    # if Vagrant.has_plugin?("vagrant-hostsupdater")
+    #   config.vbguest.auto_update = false
+    # end
   end
 
-  # Skip checking for an updated version of the specified vagrant box
-  # --------------------
-  #config.vm.box_check_update = false
-
-  # Skip auto checking and updating correct guest additions version when booting the machine
-  # --------------------
-  #if Vagrant.has_plugin?("vagrant-hostsupdater")
-  #  config.vbguest.auto_update = false
-  #end
-
-  # Message to show after vagrant up
-  # --------------------
-  config.vm.post_up_message = "Your development box is now ready!\n\nTo get started, browse to:   >>> http://#{config.vm.hostname} <<<"
 
   # Provisioning
-  # --------------------
   config.vm.provision "shell",
     path: "https://raw.githubusercontent.com/tbal/vagrant-provision-init-script/master/init.sh",
     args: [
-      # Add project specific setup, if any
+      # Project specific setup (if any)
       #"scripts/provision/vagrant/setup-config-files.sh",
 
 
       # Use Bundles, e.g.:
       #"debian/bundle/typo3-lamp",
       # and add additional tools and packages optionally
-      #"debian-7/php-xdebug",
-      #"debian-7/php-phpinfo",
-      #"debian-7/adminer",
+      #"debian/php-xdebug",
+      #"debian/php-phpinfo",
+      #"debian/adminer",
 
       # OR
 
       # use single scripts to provision your custom environment, e.g.:
-      #"debian-7/base",
-      #"debian-7/common",
-      #"debian-7/apache",
-      #"debian-7/mysql",
-      #"debian-7/php",
-      #"debian-7/php-xdebug",
-      #"debian-7/php-mysql",
-      #"debian-7/java",
+      #"debian/base",
+      #"debian/common",
+      #"debian/apache",
+      #"debian/mysql",
+      #"debian/php",
+      #"debian/php-xdebug",
+      #"debian/php-mysql",
+      #"debian/java",
     ]
 
   # (Re)start apache when the box is ready
-  # This is necessary because apache fails on first start because the project folder (/vagrant)
-  # where the vhost config is located is not mounted at this time (-> race condition)
-  # --------------------
+  # This is necessary when you use (symlinked) vhost files from shared folders,
+  # because generally the shared folder is not mounted at the time when apache starts.
+  # Therefore apache fails to load the vhost file and aborts.
   #config.vm.provision "shell", inline: "service apache2 restart", run: "always"
+
+
+  # Message to show after vagrant up
+  config.vm.post_up_message = "Your development box is now ready!\n\n" +
+                              "To get started, browse to:   >>> http://#{config.vm.hostname} <<<"
 
 end
