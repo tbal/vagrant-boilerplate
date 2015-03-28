@@ -1,5 +1,23 @@
 # -*- mode: ruby -*-
 
+
+###
+# CONFIG VARIABLES
+#
+
+# Project specific settings
+$static_ip      = "192.168.33.189"
+$main_domain    = "vagrant.dev"
+$domain_aliases = ["sub1.vagrant.dev", "sub2.vagrant.dev"]
+
+# Hypervisor settings; you can override these in your ~/.vagrant.d/Vagrantfile
+$memory    ||= 1024
+$cpus      ||= 2
+$sync_type ||= "" # values: "nfs" (requires nfsd pkg on host), "rsync" or empty for auto
+
+
+
+
 # Vagrant version requirement
 Vagrant.require_version ">= 1.7.0"
 
@@ -18,24 +36,23 @@ Vagrant.configure("2") do |config|
   # Box Hostname
   # Note: If vagrant-hostsupdater plugin is installed,
   #       an /etc/hosts entry will be added with this as host
-  config.vm.hostname = "vagrant.dev"
+  config.vm.hostname = $main_domain
 
   # /etc/hosts entries added by vagrant-hostsupdater plugin
   # Note: Requires vagrant-hostsupdater plugin to be installed
   if Vagrant.has_plugin?("vagrant-hostsupdater")
-    config.hostsupdater.aliases = ["sub1.vagrant.dev", "sub2.vagrant.dev"]
+    config.hostsupdater.aliases = $domain_aliases
     config.hostsupdater.remove_on_suspend = true
   end
 
   # IP of the box
   # Note: Use an IP that doesn't conflict with any OS's DHCP
-  config.vm.network "private_network", ip: "192.168.33.164"
+  config.vm.network "private_network", ip: $static_ip
 
 
   # Synced Folders
-  # Note: Requires nfsd package to be installed. Except on Windows, where
-  #       the nfs mount option will be ignored and the default is used.
-  config.vm.synced_folder ".", "/vagrant", type: "nfs"
+  # Note: On Windows, if set, the nfs mount option will be ignored and the default is used.
+  config.vm.synced_folder ".", "/vagrant", type: $sync_type
 
 
   # Reduce provisioning time by sharing a common package cache among similiar VM instances
@@ -47,8 +64,8 @@ Vagrant.configure("2") do |config|
 
   # Box settings for provider: VirtualBox
   config.vm.provider "virtualbox" do |vbox|
-    vbox.memory = 1024
-    vbox.cpus   = 2
+    vbox.memory = $memory
+    vbox.cpus   = $cpus
 
     vbox.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
 
