@@ -59,6 +59,12 @@ Vagrant.configure("2") do |config|
   end
 
 
+  # Use best package mirror for optimal aptitude download performance
+  config.vm.provision "shell", inline: <<-SHELL
+    sed -i 's/mirrors.kernel.org/http.debian.net/g' /etc/apt/sources.list
+    sed -i 's/cdn.debian.net/http.debian.net/g' /etc/apt/sources.list
+  SHELL
+
   # Provisioning
   config.vm.provision "shell",
     path: "https://raw.githubusercontent.com/tbal/vagrant-provision-init-script/master/init.sh",
