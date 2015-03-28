@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
 
   # IP of the box
   # Note: Use an IP that doesn't conflict with any OS's DHCP
-  config.vm.network "private_network", ip: $static_ip
+  config.vm.network "private_network", ip: $static_ip, lxc__bridge_name: "vlxcbr1"
 
 
   # Synced Folders
@@ -85,6 +85,17 @@ Vagrant.configure("2") do |config|
 
     libvirt.memory = $memory
     libvirt.cpus   = $cpus
+  end
+
+
+  # Box settings for provider: LXC
+  config.vm.provider :lxc do |lxc, override|
+    override.vm.box = "fgrehm/wheezy64-lxc"
+
+    # unset sync type to use default lxc sync method (native fs) which is the fastest
+    override.vm.synced_folder ".", "/vagrant", type: ""
+
+    lxc.customize "cgroup.memory.limit_in_bytes", "#{$memory}M"
   end
 
 
