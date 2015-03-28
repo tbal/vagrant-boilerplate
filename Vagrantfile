@@ -38,6 +38,13 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant", type: "nfs"
 
 
+  # Reduce provisioning time by sharing a common package cache among similiar VM instances
+  # Note: Requires vagrant-cachier plugin to be installed
+  if Vagrant.has_plugin?("vagrant-cachier")
+      config.cache.scope = :machine
+  end
+
+
   # Box settings for provider: VirtualBox
   config.vm.provider "virtualbox" do |vbox|
     vbox.memory = 1024
