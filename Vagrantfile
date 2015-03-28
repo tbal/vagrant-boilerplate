@@ -83,9 +83,9 @@ Vagrant.configure("2") do |config|
       # OR
 
       # use single scripts to provision your custom environment, e.g.:
-      #"debian/base",
+      "debian/base",
       #"debian/common",
-      #"debian/apache",
+      "debian/apache",
       #"debian/mysql",
       #"debian/php",
       #"debian/php-xdebug",
