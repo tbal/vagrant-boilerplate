@@ -63,8 +63,21 @@ Vagrant.configure("2") do |config|
   end
 
 
+  # Template script for mounting TYPO3s temporary folder in tmpfs (RAM) for better IO write performance
+  $mount_typo3temp_tmpfs = <<-SHELL
+    DIR_typo3temp=/vagrant/htdocs/typo3temp
+    mkdir -p $DIR_typo3temp
+    echo "Mounting $DIR_typo3temp to tmpfs..."
+    mount -t tmpfs -o size=50% tmpfs $DIR_typo3temp
+    echo "Done."
+  SHELL
+
+
   # Box settings for provider: VirtualBox
-  config.vm.provider :virtualbox do |vbox|
+  config.vm.provider :virtualbox do |vbox, override|
+    # Mount TYPO3s temporary folder in tmpfs (RAM) for better IO write performance
+    override.vm.provision "shell", run: "always", inline: $mount_typo3temp_tmpfs
+
     vbox.memory = $memory
     vbox.cpus   = $cpus
 
@@ -80,6 +93,9 @@ Vagrant.configure("2") do |config|
   # Box settings for provider: libvirt
   config.vm.provider :libvirt do |libvirt, override|
     override.vm.box = "baremettle/debian-7.5"
+
+    # Mount TYPO3s temporary folder in tmpfs (RAM) for better IO write performance
+    override.vm.provision "shell", run: "always", inline: $mount_typo3temp_tmpfs
 
     libvirt.driver = "kvm"
 
