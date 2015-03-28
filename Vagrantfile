@@ -77,6 +77,17 @@ Vagrant.configure("2") do |config|
   end
 
 
+  # Box settings for provider: libvirt
+  config.vm.provider :libvirt do |libvirt, override|
+    override.vm.box = "baremettle/debian-7.5"
+
+    libvirt.driver = "kvm"
+
+    libvirt.memory = $memory
+    libvirt.cpus   = $cpus
+  end
+
+
   # Use best package mirror for optimal aptitude download performance
   config.vm.provision "shell", inline: <<-SHELL
     sed -i 's/mirrors.kernel.org/http.debian.net/g' /etc/apt/sources.list
