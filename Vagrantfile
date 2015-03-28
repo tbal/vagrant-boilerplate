@@ -6,7 +6,7 @@
 #
 
 # Project specific settings
-$static_ip      = "192.168.33.189"
+$static_ip      = "192.168.12.123"
 $main_domain    = "vagrant.dev"
 $domain_aliases = ["sub1.vagrant.dev", "sub2.vagrant.dev"]
 $rsync_exclude  = [".git/", ".idea/", "backup/"] # affects only if $sync_type is "rsync"
