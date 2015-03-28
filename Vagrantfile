@@ -9,7 +9,7 @@
 $static_ip      = "192.168.12.123"
 $main_domain    = "myproject.dev"
 $domain_aliases = ["subdomain1.myproject.dev", "subdomain2.myproject.dev"]
-$rsync_exclude  = [".git/", ".idea/", "backup/"] # affects only if $sync_type is "rsync"
+$rsync_exclude  = [".git/", ".idea/", "backup/", "htdocs/typo3temp/"] # affects only if $sync_type is "rsync"
 
 # Hypervisor settings; you can override these in your ~/.vagrant.d/Vagrantfile
 $memory    ||= 1024
