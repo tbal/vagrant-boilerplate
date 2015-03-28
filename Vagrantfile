@@ -9,6 +9,7 @@
 $static_ip      = "192.168.33.189"
 $main_domain    = "vagrant.dev"
 $domain_aliases = ["sub1.vagrant.dev", "sub2.vagrant.dev"]
+$rsync_exclude  = [".git/", ".idea/", "backup/"] # affects only if $sync_type is "rsync"
 
 # Hypervisor settings; you can override these in your ~/.vagrant.d/Vagrantfile
 $memory    ||= 1024
@@ -52,7 +53,7 @@ Vagrant.configure("2") do |config|
 
   # Synced Folders
   # Note: On Windows, if set, the nfs mount option will be ignored and the default is used.
-  config.vm.synced_folder ".", "/vagrant", type: $sync_type
+  config.vm.synced_folder ".", "/vagrant", type: $sync_type, rsync__exclude: $rsync_exclude
 
 
   # Reduce provisioning time by sharing a common package cache among similiar VM instances
