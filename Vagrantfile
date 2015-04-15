@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
 
   # IP of the box
   # Note: Use an IP that doesn't conflict with any OS's DHCP
-  config.vm.network "private_network", ip: $static_ip, lxc__bridge_name: "vlxcbr1"
+  config.vm.network "private_network", ip: $static_ip, lxc__bridge_name: "vlxcbr-myproject"
 
 
   # Synced Folders
