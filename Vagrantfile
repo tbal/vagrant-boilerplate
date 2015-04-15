@@ -64,7 +64,7 @@ Vagrant.configure("2") do |config|
 
 
   # Box settings for provider: VirtualBox
-  config.vm.provider "virtualbox" do |vbox|
+  config.vm.provider :virtualbox do |vbox|
     vbox.memory = $memory
     vbox.cpus   = $cpus
 
