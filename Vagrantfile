@@ -99,6 +99,17 @@ Vagrant.configure("2") do |config|
   end
 
 
+  # Run script on host which setups project dependencies (e.g. git submodules, composer libraries)
+  # Note: Requires vagrant-triggers plugin to be installed
+  #if Vagrant.has_plugin?("vagrant-triggers")
+  #  config.vm.provision "trigger", :stdout => true, :stderr => true do |trigger|
+  #    trigger.fire do
+  #      success "##### Setup project dependencies #####"
+  #      run './scripts/provision/setup-dependencies.sh'
+  #    end
+  #  end
+  #end
+
   # Use best package mirror for optimal aptitude download performance
   config.vm.provision "shell", inline: <<-SHELL
     sed -i 's/mirrors.kernel.org/http.debian.net/g' /etc/apt/sources.list

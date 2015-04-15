@@ -34,3 +34,22 @@ if !Vagrant.has_plugin?("vagrant-vbguest")
       exit
   end
 end
+
+
+# Check/Install Plugin: vagrant-triggers
+if !Vagrant.has_plugin?("vagrant-triggers")
+  puts "[plugin triggers missing] It is highly recommended to install the triggers plugin."
+  puts "[plugin triggers missing] This plugin is, among other things, able to setup the project dependencies automatically on the host itself."
+  puts "[plugin triggers missing] You can install it by running the following command:"
+  puts "[plugin triggers missing] vagrant plugin install vagrant-triggers"
+  puts "Do you want me to install it for you? ([y]es, [s]kip, [a]bort)"
+  STDOUT.flush()
+  case STDIN.gets.chomp
+    when 'y'
+      system 'vagrant plugin install vagrant-triggers'
+      puts
+    when 's'
+    else
+      exit
+  end
+end
